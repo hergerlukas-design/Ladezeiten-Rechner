@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ladezeit-Rechner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+        input {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Ladezeit-Rechner</h2>
+
+    <label for="leistung">Ladeleistung (kW):</label>
+    <input type="number" id="leistung" placeholder="z.B. 130">
+
+    <label for="start">Start-Akkustand (%):</label>
+    <input type="number" id="start" placeholder="z.B. 30">
+
+    <label for="ziel">Ziel-Akkustand (%):</label>
+    <input type="number" id="ziel" placeholder="z.B. 70">
+
+    <label for="kapazitaet">Akkukapazität (kWh):</label>
+    <input type="number" id="kapazitaet" placeholder="z.B. 94.4">
+
+    <button onclick="berechneLadezeit()">Ladezeit berechnen</button>
+
+    <div class="result" id="ergebnis"></div>
+
+    <script>
+        function berechneLadezeit() {
+            var leistung = parseFloat(document.getElementById('leistung').value);
+            var start = parseFloat(document.getElementById('start').value);
+            var ziel = parseFloat(document.getElementById('ziel').value);
+            var kapazitaet = parseFloat(document.getElementById('kapazitaet').value);
+
+            if (isNaN(leistung) || isNaN(start) || isNaN(ziel) || isNaN(kapazitaet) || start >= ziel) {
+                document.getElementById('ergebnis').innerHTML = "Bitte gib gültige Zahlen ein und achte darauf, dass der Startwert kleiner ist als der Zielwert.";
+                return;
+            }
+
+            // Berechnung
+            var zuLadendeEnergie = ((ziel - start) / 100) * kapazitaet;
+            var ladezeitStunden = zuLadendeEnergie / leistung;
+            var ladezeitMinuten = ladezeitStunden * 60;
+
+            // Ergebnis anzeigen
+            document.getElementById('ergebnis').innerHTML = "Ladedauer: " + ladezeitMinuten.toFixed(2) + " Minuten";
+        }
+    </script>
+
+</body>
+</html>
